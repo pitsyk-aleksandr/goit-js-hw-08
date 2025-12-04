@@ -86,6 +86,11 @@ function onImageClick(event) {
   // Забороняєм поведінку за замовчуванням
   event.preventDefault();
 
+  // Перевірка, щоб click був саме на єлементі img
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+
   // Отримаєм значення атрибута data-source
   // Варіант 1
   // const sourceImg = event.target.getAttribute('data-source');
@@ -93,9 +98,9 @@ function onImageClick(event) {
   const sourceImg = event.target.dataset.source;
 
   // Якщо sourceImg === null (click поза елементами img), то нічого не робимо
-  if (!sourceImg) {
-    return;
-  }
+  // if (!sourceImg) {
+  //   return;
+  // }
 
   // Створюємо модальне вікно за допомогою бібліотеки
   const instance = basicLightbox.create(`
