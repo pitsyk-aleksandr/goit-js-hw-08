@@ -54,9 +54,12 @@ const images = [
 ];
 
 // Розмітка галереї зображень
+
+// ------------------------------------------------------------
+// Варіант 1
 let markup = ``;
 
-images.map(image => {
+images.forEach(image => {
   const markupItem = `
     <li class="gallery-item">
         <a class="gallery-link" href="${image.original}">
@@ -71,12 +74,42 @@ images.map(image => {
     `;
   markup = markup + markupItem;
 });
+// ------------------------------------------------------------
+
+// ------------------------------------------------------------
+// Варіант 2
+// Пустий масив для елементів розмітки
+let markupArray = [];
+
+images.forEach(image => {
+  const markupItem = `
+    <li class="gallery-item">
+        <a class="gallery-link" href="${image.original}">
+            <img
+            class="gallery-image"
+            src="${image.preview}"
+            data-source="${image.original}"
+            alt="${image.description}"
+            />
+        </a>
+    </li>
+    `;
+  // Додаємо в масив новий елемент
+  markupArray.push(markupItem);
+});
+
+// Всі елементи масиву перетворюємо в строку з роздільником - пуста строка
+const markup2 = markupArray.join(``);
+// ------------------------------------------------------------
 
 // Посилання на весь список галереї
 const galleryEl = document.querySelector('.gallery');
 
 // Додаємо картинки в список в DOM
-galleryEl.insertAdjacentHTML('beforeend', markup);
+// Варіант 1 розмітки
+// galleryEl.insertAdjacentHTML('beforeend', markup);
+// Варіант 2 розмітки
+galleryEl.insertAdjacentHTML('beforeend', markup2);
 
 // Слухач події на весь список посилань з картинками
 galleryEl.addEventListener('click', onImageClick);
@@ -92,9 +125,9 @@ function onImageClick(event) {
   }
 
   // Отримаєм значення атрибута data-source
-  // Варіант 1
+  // Варіант 1 - через getAttribute()
   // const sourceImg = event.target.getAttribute('data-source');
-  // Варіант 2
+  // Варіант 2 - через dataset
   const sourceImg = event.target.dataset.source;
 
   // Якщо sourceImg === null (click поза елементами img), то нічого не робимо
@@ -106,6 +139,6 @@ function onImageClick(event) {
   const instance = basicLightbox.create(`
       <img src="${sourceImg}" width="1112" height="640">
     `);
-  // Показуємо вікно
+  // Показуємо вікно - метод бібліотеки
   instance.show();
 }
