@@ -102,6 +102,29 @@ images.forEach(image => {
 const markup2 = markupArray.join(``);
 // ------------------------------------------------------------
 
+// ------------------------------------------------------------
+// Варіант 3
+// Через перебираючий метод map
+// Всі елементи масиву перетворюємо в строку з роздільником - пуста строка
+// та для кожного image використовуємо деструктурізацію об'єкту
+const markup3 = images
+  .map(({ original, preview, description }) => {
+    return `
+    <li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+            <img
+            class="gallery-image"
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}"
+            />
+        </a>
+    </li>
+    `;
+  })
+  .join('');
+// ------------------------------------------------------------
+
 // Посилання на весь список галереї
 const galleryEl = document.querySelector('.gallery');
 
@@ -109,7 +132,9 @@ const galleryEl = document.querySelector('.gallery');
 // Варіант 1 розмітки
 // galleryEl.insertAdjacentHTML('beforeend', markup);
 // Варіант 2 розмітки
-galleryEl.insertAdjacentHTML('beforeend', markup2);
+// galleryEl.insertAdjacentHTML('beforeend', markup2);
+// Варіант 3 розмітки
+galleryEl.insertAdjacentHTML('beforeend', markup3);
 
 // Слухач події на весь список посилань з картинками
 galleryEl.addEventListener('click', onImageClick);
